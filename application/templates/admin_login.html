@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CardioCare Hospital - Admin Portal</title>
+    <style>
+        body {
+            background-color: #16a085; /* Light green background color */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        #admin-portal {
+            background-color: #fff; /* White background color for the form */
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 50%;
+            height: 40%;
+        }
+
+        h1 {
+            color: #16a085; /* Light green header text color */
+            font-size: 34px; /* Larger font size for "Welcome Admin" */
+        }
+
+        label {
+            font-size: 28px; /* Font size for labels (Admin ID and Password) */
+            text-align: left; /* Align labels to the left */
+            display: block; /* Display labels on a new line */
+        }
+
+        input[type="text"],
+        input[type="password"],
+        button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 28px; /* Larger font size for input fields and button */
+        }
+
+        button {
+            background-color: #16a085; /* Light green button background color */
+            color: #fff; /* White button text color */
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #138d72; /* Darker green for button on hover */
+        }
+    </style>
+</head>
+<body>
+    <div id="admin-portal">
+        <h1>Welcome Admin!</h1>
+        <form action="{% url 'admin_login' %}" method="post">
+            {% csrf_token %}
+            <label for="admin_id">Admin ID:</label>
+            <input type="text" name="admin_id" id="admin_id" required>
+            <label for="password">Password:</label>
+            <input type="password" name="password" id="password" required>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+</body>
+</html>

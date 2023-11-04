@@ -1,0 +1,211 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.4.0/fonts/remixicon.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'land.css' %}">
+    <title>Sevasadan Cardio Care</title>
+</head>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap");
+
+:root {
+  --primary-color: #28bf96;
+  --primary-color-dark: #209677;
+  --text-dark: #111827;
+  --text-light: #6b7280;
+  --white: #ffffff;
+}
+.nav__logo {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--primary-color);
+    }
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.btn {
+  padding: 1rem 2rem;
+  outline: none;
+  border: none;
+  font-size: 1rem;
+  color: var(--white);
+  background-color: var(--primary-color);
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+  text-decoration: none; 
+}
+
+.btn:hover {
+  background-color: var(--primary-color-dark);
+}
+
+  body {
+            background-color: #16a085; /* Light green background color */
+           
+         
+        
+            height: 100vh;
+            margin: 0;
+        }
+
+.container {
+  background-color:white;
+  margin: auto;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+nav {
+  padding: 2rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: 24px;
+}
+
+.nav__logo {
+  font-size: 34px;
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+.nav__links {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.link a {
+  text-decoration: none;
+  color: var(--text-light);
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.link a:hover {
+  color: var(--primary-color);
+}
+
+.header {
+  padding: 0 1rem;
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  align-items: center;
+}
+
+.content h1 {
+  margin-bottom: 1rem;
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--text-dark);
+}
+
+.content h1 span {
+  font-weight: 400;
+}
+
+.content p {
+  margin-bottom: 2rem;
+  color: var(--text-light);
+  line-height: 1.75rem;
+}
+
+
+
+
+
+
+
+@media (width < 900px) {
+  .nav__links {
+    display: none;
+  }
+
+  .header {
+    padding: 1rem;
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  .content {
+    text-align: center;
+  }
+
+  .image {
+    grid-area: 1/1/2/2;
+  }
+}
+.card {
+    align:center;
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.card h3 {
+    font-size: 20px;
+    color: #333333;
+    margin: 0;
+}
+
+.card p {
+    font-size: 16px;
+    color: #666666;
+    margin: 0;
+}
+.specialist_list {
+    width:50%;
+  justify-content: center;
+ 
+}
+
+  </style>
+  <body>
+    
+    <div class="container">
+      <nav>
+        <div class="nav__logo">Sevasadan Cardio</div>
+        <ul class="nav__links">
+          <ul class="nav__links">
+          <ul class="nav__links">
+            <li class="link"><a href="/admin_portal"> Our Cardio Specialist</a></li>
+            <li class="link"><a href="/lab_assistant_list">View Lab Assistants</a></li>
+            <li class="link"><a href="/register_specialist">Register Cardio Specialist</a></li>
+            <li class="link"><a href="/register_lab_assistant"> Register Lab Assistant</a></li>
+        </ul>
+        <a class="btn" href="/" style="text-decoration: none;"><i class="ri-logout-box-line"></i> LogOut</a>
+
+    </nav>
+    </div>
+    <div class="specialist_list">
+    {% for assistant in assistants %}
+        <div class="card">
+            <h2>Assistant Id : {{ assistant.id }}</h2>
+            <h2 >{{ assistant.full_name }}</h2>
+             
+             <hr>
+            <h3>Email: {{ assistant.emailId }}</h3>
+            <h3>Phone Number: {{ assistant.phone_number }}</h3>
+           
+            
+        </div>
+    {% endfor %}
+</div>
+
+  </body>
+</html>
