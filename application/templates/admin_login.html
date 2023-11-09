@@ -227,20 +227,11 @@ nav {
                     <form action="{% url 'admin_login' %}" method="post">
 						{% csrf_token %}
                    <h3 style="color:#63C5CA ">Admin Login</h3>
-                   <div class="input-field">
-                        <input type="text" class="input" id="email" required="" autocomplete="off" id="admin_id">
-                        <label for="email">Admin Email</label> 
-                    </div> 
-                   <div class="input-field">
-                        <input type="password" class="input" id="pass" required=""  id="password">
-                        <label for="pass">Password</label>
-                    </div> 
-                   
-					
-                   <div class="input-field">
-                        
-                        <input type="submit" class="submit" value="Sign Up">
-                   </div> 
+                   <label  for="admin_id">Admin ID:</label>
+                   <input type="text" class='input' name="admin_id" id="admin_id" required>
+                   <label  for="password">Password:</label>
+                   <input type="password" class='input' name="password" id="password" required>
+                   <button class='submit' type="submit">Login</button>
 				</form>
                 </div>  
             </div>
