@@ -86,7 +86,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'SevasadanCardio',
         'USER': 'root',
-        'PASSWORD': 'shiripiri@2207',
+        'PASSWORD': '',
         'HOST': 'localhost',  
         'PORT': '3306',      
     }
@@ -132,3 +132,13 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# settings.py
+
+# Email settings for Gmail
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'sevasadancardio@gmail.com'  # Replace with your Gmail email address
+EMAIL_HOST_PASSWORD = 'jxpqeodtsjcqhvsx'  # Replace with your Gmail App Password

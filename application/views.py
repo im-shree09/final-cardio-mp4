@@ -3,6 +3,14 @@ from django.contrib.auth.hashers import make_password
 from django.db import connection  # Import the connection object to execute raw SQL queries
 from django.http import HttpResponse
 from django.utils import timezone 
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
+
+# @login_required
+# def secure_view(request):
+#     # This view will only be accessible to logged-in users.
+#     # You can perform user-specific actions here.
+#     return render(request, 'secure_template.html', context)
 
 def admin_login(request):
     if request.method == 'POST':
@@ -47,6 +55,7 @@ def admin_portal(request):
     
     return render(request, 'admin_portal.html', context)
 
+
 def all_patient_list(request):
     with connection.cursor() as cursor:
         sql_query = "SELECT * FROM Reports;"
@@ -55,7 +64,7 @@ def all_patient_list(request):
     context = {
         'reports': data
     }
-    print(context)
+    # print(context)
     return render(request, 'all_patient_list.html', context)
 
 def dictfetchall(cursor):
@@ -164,6 +173,42 @@ def specialist_home(request, id):
 
     return render(request, 'specialist_home.html', context)
 
+# ///////////////////////////Original/////////////////////////////
+# def lab_assistant_home(request, id):
+#     if request.method == 'POST':
+#         patient_id = request.POST['patient_id']
+#         patient_name = request.POST['patient_name']
+#         patient_age = request.POST['patient_age']
+#         patient_gender = request.POST['patient_gender']
+#         assigned_to_specialist = request.POST['assigned_to_specialist']
+#         report_data = request.FILES['report_data'].read()
+#         lab_assistant_id = id  # Get lab_assistant_id from function argument
+#         added_on_date_time = timezone.now()  # Get the current date and time
+
+#         sql_query = """
+#             INSERT INTO Reports (patient_id, lab_assistant_id, patient_name, patient_age, patient_gender, assigned_to_specialist, report_data, added_on_date_time)
+#             VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+#         """
+
+#         with connection.cursor() as cursor:
+#             cursor.execute(sql_query, [patient_id, lab_assistant_id, patient_name, patient_age, patient_gender, assigned_to_specialist, report_data, added_on_date_time])
+
+#         return render(request, 'upload_success.html')
+#     else:
+#         with connection.cursor() as cursor:
+#             sql_query = "SELECT * FROM User_Data WHERE registering_as = 'specialist';"
+#             cursor.execute(sql_query)
+#             data = dictfetchall(cursor)
+#             context = {
+#                 'specialists': data,
+#                 'id':id,
+#             }
+
+#         return render(request, 'lab_assistant_home.html', context)
+from django.core.mail import send_mail
+from django.db import connection
+from django.shortcuts import render
+from django.utils import timezone
 
 def lab_assistant_home(request, id):
     if request.method == 'POST':
@@ -173,8 +218,8 @@ def lab_assistant_home(request, id):
         patient_gender = request.POST['patient_gender']
         assigned_to_specialist = request.POST['assigned_to_specialist']
         report_data = request.FILES['report_data'].read()
-        lab_assistant_id = id  # Get lab_assistant_id from function argument
-        added_on_date_time = timezone.now()  # Get the current date and time
+        lab_assistant_id = id
+        added_on_date_time = timezone.now()
 
         sql_query = """
             INSERT INTO Reports (patient_id, lab_assistant_id, patient_name, patient_age, patient_gender, assigned_to_specialist, report_data, added_on_date_time)
@@ -184,6 +229,19 @@ def lab_assistant_home(request, id):
         with connection.cursor() as cursor:
             cursor.execute(sql_query, [patient_id, lab_assistant_id, patient_name, patient_age, patient_gender, assigned_to_specialist, report_data, added_on_date_time])
 
+        # Fetch specialist email from the User_Data table
+        with connection.cursor() as cursor:
+            specialist_query = "SELECT emailId FROM user_data WHERE id = %s;"
+            cursor.execute(specialist_query, [assigned_to_specialist])
+            specialist_email = cursor.fetchone()[0]
+
+        subject = 'New Report Submitted'
+        message = f'A new report has been submitted for patient {patient_name}. Please review it.'
+        from_email = 'sevasadancardio@gmail.com'  # Replace with a valid sender email address
+
+        print(specialist_email)
+        send_mail(subject, message, from_email, [specialist_email])
+        print("Mail Sent!!")
         return render(request, 'upload_success.html')
     else:
         with connection.cursor() as cursor:
@@ -192,13 +250,18 @@ def lab_assistant_home(request, id):
             data = dictfetchall(cursor)
             context = {
                 'specialists': data,
-                'id':id,
+                'id': id,
             }
 
         return render(request, 'lab_assistant_home.html', context)
 
+def dictfetchall(cursor):
+    desc = cursor.description
+    return [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]
+
 def upload_success(request):
     return render(request,'upload_success.html')
+
 def show_report(request, report_id):
     # Fetch the report data from the database
     with connection.cursor() as cursor:

@@ -141,7 +141,18 @@
         top: 45px;
     }
 }
-
+.button {
+    display: block;
+    width: 115px;
+    height: 25px;
+    background: #4E9CAF;
+    padding: 10px;
+    text-align: center;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    line-height: 25px;
+}
 @keyframes icon-line-long {
     0% {
         width: 0;
@@ -183,9 +194,9 @@
     <div class="icon-circle"></div>
     <div class="icon-fix"></div>
   </div>
-
-
   <h3>Report Uploaded Succesfully </h3>
+  <a class="button" href="javascript:window.history.back();">Back</a>
+  {% comment %} <a class="button" href="http://127.0.0.1:8000/">Back to home</a> {% endcomment %}
 </center>
 </div>
 </body>

@@ -16,8 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from application import views
+from django.contrib.auth.decorators import login_required
+# from . import views
 
 urlpatterns = [
+    # path('secure/', login_required(views.secure_view), name='secure_view'),
     path('admin/', admin.site.urls),
     path('', views.home, name='home'),
     path('login', views.login, name='login'),
