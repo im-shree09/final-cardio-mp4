@@ -281,9 +281,11 @@ nav {
       <div class="slide-container">
         <div class="card-wrapper swiper-wrapper">
             {% for report in reports %}
+
           <div class="card swiper-slide">
             <div class="image-box">
                 <form method="post">
+                  {% csrf_token %}
                     <!-- Replace the following placeholders with dynamic data from Django template -->
                     <input type="hidden" name="report_id" value="1">
                     <h3 class="mk">{{ report.patient_name }}</h3>
@@ -322,7 +324,7 @@ nav {
                       <tr>
                           <th>Write Comment:</th>
                           <td>
-                              <textarea name="comment" rows="4" cols="50" placeholder="Write a comment"></textarea>
+                              <textarea name="comment" id="comment" rows="4" cols="50" placeholder="Write a comment"></textarea>
                           </td>
                       </tr>
                   </table>
