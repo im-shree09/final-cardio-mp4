@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<!-- Coding By CodingNepal - codingnepalweb.com -->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+   <title>Responsive Card Slider in HTML CSS & JavaScript with Swiperjs</title>
+
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="css/swiper-bundle.min.css" />
+  <style>
+    /* Google Fonts - Poppins */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+body {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #efefef;
+}
+.container {
+  max-width: 1120px;
+  width: 100%;
+  padding: 40px 0;
+}
+.slide-container {
+  margin: 0 30px;
+  overflow: hidden;
+}
+.card {
+  background: #fff;
+  border-radius: 8px;
+}
+.card .image-box {
+  height: 400px;
+  margin: 20px;
+}
+.card .image-box img {
+  width: 100%;
+  height: 100%;
+  border-radius: 8px 8px 0 0;
+}
+.card .profile-details {
+  display: flex;
+  align-items: center;
+  column-gap: 12px;
+  padding: 15px;
+}
+.card .profile-details img {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+}
+.profile-details .name {
+  font-size: 15px;
+  font-weight: 500;
+}
+.profile-details .job {
+  font-size: 12px;
+  font-weight: 500;
+  color: #4d4d4d;
+}
+
+.swiper-navBtn {
+  color: #000;
+  height: 40px;
+  width: 40px;
+  background: #fff;
+  border-radius: 50%;
+}
+.swiper-navBtn::before,
+.swiper-navBtn::after {
+  font-size: 18px;
+}
+
+.swiper-pagination-bullet {
+  background-color: #000;
+}
+
+@media screen and (max-width: 768px) {
+  .swiper-navBtn {
+    display: none;
+  }
+}
+  </style>
+
+  </head>
+  <body>
+
+    <div class="container swiper">
+      <div class="slide-container">
+        <div class="card-wrapper swiper-wrapper">
+            {% for report in reports %}
+          <div class="card swiper-slide">
+            <div class="image-box">
+                <form method="post">
+                    <!-- Replace the following placeholders with dynamic data from Django template -->
+                    <input type="hidden" name="report_id" value="1">
+                    <table>
+                      <tr>
+                          <th>Patient ID:</th>
+                          <td>{{ report.patient_id }}</td>
+                      </tr>
+                      <tr>
+                          <th>Patient Name:</th>
+                          <td>{{ report.patient_name }}</td>
+                      </tr>
+                      <tr>
+                          <th>Patient Age:</th>
+                          <td>{{ report.patient_age }}</td>
+                      </tr>
+                      <tr>
+                          <th>Patient Gender:</th>
+                          <td>{{ report.patient_gender }}</td>
+                      </tr>
+                      <tr>
+                          <th>Added On :</th>
+                          <td>{{ report.added_on_date_time }}</td>
+                      </tr>
+                        <tr><th>Cardio Report :</th><td>
+                         <a href="{% url 'show_report' report.report_id %}" class="show_report_button" target="_blank">Show Report</a> </td></tr>
+                      <tr>
+                          <th>Specialist Comment:</th>
+                          <td>{{ report.specialist_comments }}</td>
+                      </tr>
+                      <tr>
+                          <th>Lab Assistant Id :</th>
+                          <td>{{ report.lab_assistant_id }}</td>
+                      </tr>
+                    
+                      <tr>
+                          <th>Write Comment:</th>
+                          <td>
+                              <textarea name="comment" rows="4" cols="50" placeholder="Write a comment"></textarea>
+                          </td>
+                      </tr>
+                  </table>
+                    <button class="post_prescription_button" data-report-id="1">Post Prescription</button>
+                </form>
+            </div>
+            <div class="profile-details">
+             <img src="https://c.ndtvimg.com/2021-11/8s1q6osg_rashami-desai-_625x300_24_November_21.jpg" alt="" />
+              <div class="name-job">
+                <h3 class="name">David Cardlos</h3>
+                <h4 class="job">Full Stack Developer</h4>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+    </div>
+
+    <script src="js/swiper-bundle.min.js"></script>
+    <script src="js/script.js"></script>
+    <script>
+        var swiper = new Swiper(".slide-container", {
+            slidesPerView: 4,
+            spaceBetween: 20,
+            sliderPerGroup: 4,
+            loop: true,
+            centerSlide: "true",
+            fade: "true",
+            grabCursor: "true",
+            pagination: {
+              el: ".swiper-pagination",
+              clickable: true,
+              dynamicBullets: true,
+            },
+            navigation: {
+              nextEl: ".swiper-button-next",
+              prevEl: ".swiper-button-prev",
+            },
+          
+            breakpoints: {
+              0: {
+                slidesPerView: 1,
+              },
+              520: {
+                slidesPerView: 2,
+              },
+              768: {
+                slidesPerView: 3,
+              },
+              1000: {
+                slidesPerView: 4,
+              },
+            },
+          });
+    </script>
+  </body>
+</html>

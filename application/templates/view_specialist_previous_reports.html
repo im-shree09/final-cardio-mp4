@@ -1,300 +1,299 @@
-{% load static %}
 
 <!DOCTYPE html>
 <html lang="en">
- <head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.4.0/fonts/remixicon.css" rel="stylesheet"/>
-    <link rel="stylesheet" type="text/css" href="{% static 'land.css' %}">
-    <title>Sevasadan Cardio Care</title>
-</head>
-  <style>
-    @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap");
 
-:root {
-  --primary-color: #28bf96;
-  --primary-color-dark: #209677;
-  --text-dark: #111827;
-  --text-light: #6b7280;
-  --white: #ffffff;
-}
-.nav__logo {
-        font-size: 1.5rem;
-        font-weight: 600;
-        color: var(--primary-color);
-    }
-* {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-}
-
-.btn {
-  padding: 1rem 2rem;
-  outline: none;
-  border: none;
-  font-size: 1rem;
-  color: var(--white);
-  background-color: var(--primary-color);
-  border-radius: 5px;
-  cursor: pointer;
-  transition: 0.3s;
-  text-decoration: none; 
-}
-
-.btn:hover {
-  background-color: var(--primary-color-dark);
-}
-
-  body {
-            background-color: #16a085; /* Light green background color */
-           
-         
-        
-            height: 100vh;
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patients Information</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap">
+    <style>
+        * {
             margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-.container {
-  background-color:white;
-  margin: auto;
-  height: auto;
-  display: flex;
-  flex-direction: column;
-}
+        body {
+          min-height: 100vh;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          background: #efefef;
+        }
+        .card{
+          background: #fff;
+          border-radius: 8px;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+          overflow: hidden;
+          padding: 20px;
+          margin: 20px;
+        }
+        .card-list {
+          display: flex; 
+          flex-basis: 100%;
+          gap: 20px;
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 20px;
+          
+        }
+        @media (min-width: 992px) {
+          .card-list {
+              flex-basis: calc(25% - 30px); /* #{$grid-gutter-width} */
+          }
+      }
 
-nav {
-  padding: 2rem 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  font-size: 24px;
-}
+        .card-item {
+            background: #fff;
+            flex-basis: 100%;
+            padding: 14px;
+            border-radius: 8px;
+            box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+            list-style: none;
+            cursor: pointer;
+            text-decoration: none;
+            border: 2px solid transparent;
+            transition: border 0.3s ease;
+            text-align: center;
+            gap: 20px;
+        }
 
-.nav__logo {
-  font-size: 34px;
-  font-weight: 600;
-  color: var(--primary-color);
-}
+        .card-item:hover {
+            border: 2px solid #000;
+        }
 
-.nav__links {
-  list-style: none;
-  display: flex;
-  align-items: center;
-  gap: 2rem;
-}
+        .card-item img {
+            width: 50%;
+            aspect-ratio: 16/9;
+            border-radius: 8px;
+            object-fit: cover;
+        }
 
-.link a {
-  text-decoration: none;
-  color: var(--text-light);
-  cursor: pointer;
-  transition: 0.3s;
-}
+        .card-item h3 {
+            color: #000;
+            font-size: 1.2rem;
+            margin-top: 20px;
+            font-weight: 600;
+        }
 
-.link a:hover {
-  color: var(--primary-color);
-}
+        .card-list span {
+            display: inline-block;
+            background: #F7DFF5;
+            margin-top: 20px;
+            padding: 8px 15px;
+            font-size: 0.8rem;
+            border-radius: 50px;
+            font-weight: 600;
+        }
 
-.header {
-  padding: 0 1rem;
-  flex: 1;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 2rem;
-  align-items: center;
-}
+        .post_prescription_button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-top: 20px;
+        }
 
-.content h1 {
-  margin-bottom: 1rem;
-  font-size: 3rem;
-  font-weight: 700;
-  color: var(--text-dark);
-}
+        .arrow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform: rotate(-35deg);
+            height: 40px;
+            width: 40px;
+            color: #000;
+            border: 1px solid #000;
+            border-radius: 50%;
+            margin-top: 20px;
+            transition: 0.2s ease;
+        }
 
-.content h1 span {
-  font-weight: 400;
-}
+        .card-item:hover .arrow {
+            background: #000;
+            color: #fff;
+        }
 
-.content p {
-  margin-bottom: 2rem;
-  color: var(--text-light);
-  line-height: 1.75rem;
-}
+        @media (max-width: 768px) {
+            .card-item {
+                padding: 15px;
+            }
+        }
 
-
-
-
-
-
-
-@media (width < 900px) {
-  .nav__links {
-    display: none;
-  }
-
-  .header {
-    padding: 1rem;
-    grid-template-columns: repeat(1, 1fr);
-  }
-
-  .content {
-    text-align: center;
-  }
-
-  .image {
-    grid-area: 1/1/2/2;
-  }
-}
-.card {
-    align:center;
-    background-color: #ffffff;
-    border: 1px solid #cccccc;
-    border-radius: 5px;
-    padding: 10px;
-    margin: 10px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-}
-
-.card h3 {
-    font-size: 20px;
-    color: #333333;
-    margin: 0;
-}
-
-.card p {
-    font-size: 16px;
-    color: #666666;
-    margin: 0;
-}
-.specialist_list {
-    width:50%;
-  justify-content: center;
- 
-}
-.report_list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-.report_card {
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 10px;
-    margin: 10px;
-    width: 100%; /* Set the width to 100% to display one card per line */
-    background-color: #f9f9f9;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-th, td {
-    padding: 5px;
-    border-bottom: 1px solid #ccc;
-}
-
-th {
-    text-align: left;
-}
-
-.show_report_button {
-    display: block;
-    text-align: center;
-    background-color: #007bff;
-    color: white;
-    padding: 5px 10px;
-    border-radius: 5px;
-    text-decoration: none;
-    margin-top: 10px;
-}
-
-.show_report_button:hover {
-    background-color: #0056b3;
-}
-.post_prescription_button
- {
-    display: block;
-    text-align: center;
-    background-color: #007bff;
-    color: white;
-    padding: 5px 10px;
-    border-radius: 5px;
-    text-decoration: none;
-    margin-top: 10px;
-   
-}
-.post_prescription_button:hover {
-    background-color: #0056b3;
-}
-  </style>
-  <body>
-    <div class="container">
-      <nav>
-        <div class="nav__logo">Sevasadan Cardio</div>
-        <a class="btn" href="/specialist_home/{{id}}" style="text-decoration: none;"> View Recent Reports </a>
-        <a class="btn" href="/" style="text-decoration: none;"><i class="ri-logout-box-line"></i> LogOut</a>
-
-    </nav>
-    </div>
- <div class="report_list">
-    {% for report in reports %}
-    
-    <div class="report_card">
-         <form method="post">
-            {% csrf_token %}
-        <input type="hidden" name="report_id" value="{{ report.report_id }}">
-    <table>
-        <tr>
-            <th>Patient ID:</th>
-            <td>{{ report.patient_id }}</td>
-        </tr>
-        <tr>
-            <th>Patient Name:</th>
-            <td>{{ report.patient_name }}</td>
-        </tr>
-        <tr>
-            <th>Patient Age:</th>
-            <td>{{ report.patient_age }}</td>
-        </tr>
-        <tr>
-            <th>Patient Gender:</th>
-            <td>{{ report.patient_gender }}</td>
-        </tr>
-        <tr>
-            <th>Added On :</th>
-            <td>{{ report.added_on_date_time }}</td>
-        </tr>
-          <tr><th>Cardio Report :</th><td>
-           <a href="{% url 'show_report' report.report_id %}" class="show_report_button" target="_blank">Show Report</a> </td></tr>
-        <tr>
-            <th>Specialist Comment:</th>
-            <td>{{ report.specialist_comments }}</td>
-        </tr>
-        <tr>
-            <th>Lab Assistant Id :</th>
-            <td>{{ report.lab_assistant_id }}</td>
-        </tr>
+        nav {
+          padding: 2rem 1rem;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 1rem;
+        }
+        
+        .nav__logo {
+          font-size: 34px;
+          font-weight: 600;
+          color: var(--primary-color);
+        }
+        
+        .nav__links {
+          list-style: none;
+          display: flex;
+          align-items: center;
+          gap: 2rem;
+        }
+        
+        .link a {
+          text-decoration: none;
+          color: var(--text-light);
+          cursor: pointer;
+          transition: 0.3s;
+        }
+        
+        .link a:hover {
+          color: var(--primary-color);
+        }
       
-        <tr>
-            <th>Write Comment:</th>
-            <td>
-                <textarea name="comment" rows="4" cols="50" placeholder="Write a comment"></textarea>
-            </td>
-        </tr>
-    </table>
+
+
+.patient-info {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.patient-info h3 {
+  font-size: 1.5rem;
+  margin: 5px 0;
+}
+
+.patient-info .patient-id {
+  display: inline-block;
+  background: #F7DFF5;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-weight: 600;
+}
+
+.patient-details table {
+  width: 100%;
+  margin-top: 10px;
+  border-collapse: collapse;
+}
+
+.patient-details th,
+.patient-details td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.additional-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 15px;
+}
+
+.card-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.post-prescription-button,
+.show-report-button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.comment-section {
+  flex-grow: 1;
+}
+
+.comment-section textarea {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  resize: vertical;
+}
+
+    </style>
+</head>
+
+<body>
+  
+  
+  <nav>
+    <div class="nav__logo">Sevasadan Cardio</div>
+    <ul class="nav__links">
+      <li class="link"><a href="/">Home</a></li>
+      <li class="link"> <a class="btn" href="/specialist_home/{{id}}"  style="text-decoration: none;"> View Recent Reports </a></li>
+    </ul>
+ 
+    <a  class="btn" href="/" >Logout</a>
+  </nav>
+  {% for report in reports %}
+  <div class="card-list">
+    <a href="#" class="card-item">
+       <form method="post">
+          {% csrf_token %}
+      <input type="hidden" name="report_id" value="{{ report.report_id }}">
+  <table>
+      <tr>
+          <th>Patient ID:</th>
+          <td>{{ report.patient_id }}</td>
+      </tr>
+      <tr>
+          <th>Patient Name:</th>
+          <td>{{ report.patient_name }}</td>
+      </tr>
+      <tr>
+          <th>Patient Age:</th>
+          <td>{{ report.patient_age }}</td>
+      </tr>
+      <tr>
+          <th>Patient Gender:</th>
+          <td>{{ report.patient_gender }}</td>
+      </tr>
+      <tr>
+          <th>Added On :</th>
+          <td>{{ report.added_on_date_time }}</td>
+      </tr>
+        <tr><th>Cardio Report :</th><td>
+         <a href="{% url 'show_report' report.report_id %}" class="show_report_button" target="_blank">Show Report</a> </td></tr>
+      <tr>
+          <th>Specialist Comment:</th>
+          <td>{{ report.specialist_comments }}</td>
+      </tr>
+      <tr>
+          <th>Lab Assistant Id :</th>
+          <td>{{ report.lab_assistant_id }}</td>
+      </tr>
     
-    <button class="post_prescription_button" data-report-id="{{ report.report_id }}">Edit  Prescription</button>
-</div>
+      <tr>
+          <th>Write Comment:</th>
+          <td>
+              <textarea name="comment" rows="4" cols="50" placeholder="Write a comment"></textarea>
+          </td>
+      </tr>
+  </table>
+  
+  <button class="post_prescription_button" data-report-id="{{ report.report_id }}">Edit  Prescription</button>
+
 </form>
-    <br>
-    {% endfor %}
+</a>
 </div>
+  <br>
+  {% endfor %}
+</body>
 
-
-  </body>
 </html>
