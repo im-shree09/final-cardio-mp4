@@ -1,4 +1,4 @@
-# CardioCare Web Application
+# CardioCloud
 
 ## Overview
 
@@ -32,12 +32,12 @@ Welcome to CardioCare, a role-based web application designed to streamline the m
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/CardioCare.git
+  (https://github.com/im-shree09/final-cardio-mp4.git)
    ```
 
 2. Navigate to the project directory:
    ```bash
-   cd CardioCare
+   cd SevasadanCardio
    ```
 
 3. Open the `index.html` file in your preferred web browser.
