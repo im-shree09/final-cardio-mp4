@@ -32,7 +32,7 @@ Welcome to CardioCare, a role-based web application designed to streamline the m
 
 1. Clone the repository:
    ```bash
-  (https://github.com/im-shree09/final-cardio-mp4.git)
+  [https://github.com/im-shree09/final-cardio-mp4.git]
    ```
 
 2. Navigate to the project directory:
