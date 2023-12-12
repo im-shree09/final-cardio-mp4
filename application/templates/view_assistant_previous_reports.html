@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-   <title>Responsive Card Slider in HTML CSS & JavaScript with Swiperjs</title>
+   <title>Previous Reports</title>
 
     <!-- Swiper CSS -->
     <link rel="stylesheet" href="css/swiper-bundle.min.css" />
@@ -178,8 +178,9 @@ body {
   font-weight: 600;
     color: #63C5CA;
 }
+
 nav {
-    padding: 2rem 1rem;
+    padding: 3rem 5rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -187,12 +188,13 @@ nav {
   }
   
   .nav__logo {
-    font-size: 34px;
+    font-size: 32px;
     font-weight: 600;
     color: var(--primary-color);
   }
   
   .nav__links {
+    padding: 2px;
     list-style: none;
     display: flex;
     align-items: center;
@@ -203,65 +205,98 @@ nav {
     text-decoration: none;
     color: var(--text-light);
     cursor: pointer;
+    font-weight: 100;
+    font-size: 20px;
     transition: 0.3s;
   }
   
   .link a:hover {
-    color: var(--primary-color);
+    color:  #63C5CA;
   }
-
-  .pp{
-
-  }
+.bb{
+  display: inline-block;
+  padding: 10px 20px;
+  background: #63C5CA;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+.sadan {
+  color: #63C5CA;
+}
   .kk{
     color: #63C5CA;
     padding: 2px;
     
   }
- {% comment %} .post_prescription_button{
-    border: none;
-    outline: none;
-    height: 50px;
-    background: #63C5CA;
-    border-radius: 6px;
-    transition: .4s;
- } {% endcomment %}
-
-  .input-group {
-    width: 35%;
-    height: 100%;
-    background-color: #fff5;
-    padding: 0 .8rem;
-    border-radius: 2rem;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    transition: .2s;
+  
+#searchInput {
+  width: 300px;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+.bb{
+  display: inline-block;
+  padding: 10px 20px;
+  background: #63C5CA;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+.image-box {
+  padding: 15px;
+}
+ 
+.card table td.emergency {
+    background-color: red;
+    color: white;
+    font-weight: bold;
 }
 
-.input-group:hover {
-    width: 45%;
-    background-color: #fff8;
-    box-shadow: 0 .1rem .4rem #0002;
+.card table td.mild {
+    background-color: pink;
+    color: black;
+    font-weight: bold;
 }
 
- .input-group img {
-    width: 1.2rem;
-    height: 1.2rem;
+.card table td.normal {
+    background-color: green;
+    color: white;
+    font-weight: bold;
 }
 
-.input-group input {
-    width: 100%;
-    padding: 0 .5rem 0 .3rem;
-    background-color: transparent;
-    border: none;
-    outline: none;
-}
 
   </style>
+  <script>
+    function searchReports() {
+        // Get the input value
+        var searchInput = document.getElementById("searchInput").value.toLowerCase();
 
+        // Get all card elements
+        var cards = document.querySelectorAll(".card");
+
+        // Loop through each card and hide/show based on the search input
+        cards.forEach(function(card) {
+            var patientName = card.querySelector(".patient-name").textContent.toLowerCase();
+            var patientId = card.querySelector(".patient-id").textContent.toLowerCase();
+
+            // Check if the search input matches the patient name or ID
+            if (patientName.includes(searchInput) || patientId.includes(searchInput)) {
+                card.style.display = "block";
+            } else {
+                card.style.display = "none";
+            }
+        });
+    }
+</script>
   </head>
   <body>
     <nav>
@@ -271,11 +306,10 @@ nav {
           <li class="link"> <a class="btn" href="/specialist_home/{{id}}" style="text-decoration: none;"> View Recent Reports </a></li>
         </ul>
      
-        <a  class="btn" href="/" >Logout</a>
+        <a  class="bb" href="/" >Logout</a>
       </nav>
       <div class="input-group">
-        <input type="search" id="searchInput" placeholder="Search Data...">
-        {% comment %} <img src="" alt=""> {% endcomment %}
+        <input type="search" id="searchInput" oninput="searchReports()" placeholder="Search by name or id ">
     </div>
     <div class="container swiper">
       <div class="slide-container">
@@ -286,16 +320,16 @@ nav {
                <form method="post">
                   {% csrf_token %}
               <input type="hidden" name="report_id" value="{{ report.report_id }}">
-              <h3>{{ report.patient_name }}</h3>
+              <h3 class="patient-name">{{ report.patient_name }}</h3>
           <table>
 
               <tr>
                   <th>Patient ID:</th>
-                  <td>{{ report.patient_id }}</td>
+                  <td class="patient-id">{{ report.patient_id }}</td>
               </tr>
               <tr>
                   <th>Patient Name:</th>
-                  <td>{{ report.patient_name }}</td>
+                  <td class="patient-name">{{ report.patient_name }}</td>
               </tr>
               <tr>
                   <th>Patient Age:</th>
@@ -309,12 +343,22 @@ nav {
                   <th>Added On :</th>
                   <td>{{ report.added_on_date_time }}</td>
               </tr>
+               <tr>
+                  <th>Assigned to Doctor-Specialist   :</th>
+                  <td>{{ report.assigned_to_specialist }} --{{ report.assigned_doctor_name}}</td>
+              </tr>
                 <tr><th>Cardio Report :</th><td>
                  <a href="{% url 'show_report' report.report_id %}" class="show_report_button" target="_blank">Show Report</a> </td></tr>
               <tr>
                   <th>Specialist Comment:</th>
                   <td>{{ report.specialist_comments }}</td>
               </tr>
+             <tr>
+    <th>Condition Severity:</th>
+    <td class="{% if report.overall_condition == 'Emergency' %}emergency{% elif report.overall_condition == 'Mild' %}mild{% else %}normal{% endif %}">
+        {{ report.overall_condition }}
+    </td>
+</tr>
              
            
           </table>

@@ -14,13 +14,15 @@
 }
 .wrapper{
     background: #ececec;
-    padding: 0 0 0 20px;
+    padding: 0 0 0 80px;
 }
-.main{
+.main {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 90vh;
+    height: auto; /* Set a specific height for the main box */
+    overflow: auto; /* Add this line to make it scrollable */
+    width: auto;
 }
 .side-image{
     background-image: url("https://img.freepik.com/free-vector/doctor-technicians-discussing-medical-record_1262-19767.jpg");
@@ -31,11 +33,11 @@
     position: relative;
 }
 .row{
-  width:  900px;
-  height:550px;
+  width: 1100px;
+  height:auto;
   border-radius: 10px;
   background: #fff;
-  padding: 0px;
+  padding: 30px;
   box-shadow: 5px 5px 10px 1px rgba(0,0,0,0.2);
 }
 .text{
@@ -162,8 +164,9 @@ span a:hover{
     }
 }
 
+
 nav {
-    padding: 2rem 1rem;
+    padding: 3rem 5rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -171,12 +174,13 @@ nav {
   }
   
   .nav__logo {
-    font-size: 34px;
+    font-size: 32px;
     font-weight: 600;
     color: var(--primary-color);
   }
   
   .nav__links {
+    padding: 2px;
     list-style: none;
     display: flex;
     align-items: center;
@@ -187,65 +191,244 @@ nav {
     text-decoration: none;
     color: var(--text-light);
     cursor: pointer;
+    font-weight: 100;
+    font-size: 20px;
     transition: 0.3s;
   }
   
   .link a:hover {
+    color:  #63C5CA;
+  }
+  .bb{
+    display: inline-block;
+    padding: 10px 20px;
+    background: #63C5CA;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  .link a:hover {
     color: var(--primary-color);
   }
   
+  .mk {
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #63C5CA;
+}
+  
 	</style>
-	<title>Login</title>
+	<title>Register Lab Assistant</title>
 </head>
 <body>
-  <div class="wrapper">
-    <nav>
-        <div class="nav__logo">Sevasadan Cardio</div>
-        <ul class="nav__links">
-          <li class="link"><a href="/admin_portal"> Our Cardio Specialist</a></li>
-          <li class="link"><a href="/lab_assistant_list">View Lab Assistants</a></li>
-          <li class="link"><a href="/register_specialist">Register Cardio Specialist</a></li>
-          <li class="link"><a href="/register_lab_assistant"> Register Lab Assistant</a></li>
-          <li class="link"><a href="/all_patient_list"> All Patients</a></li>
-        </ul>
-     
-        <a  class="btn" href="/" >Logout</a>
-      </nav>
-    <div class="container main">
-        <div class="row">
-            <div class="col-md-6 side-image">
-                         
-                
-                <div class="text">
-                    
+   
+        <div class="wrapper">
+          <nav>
+              <div class="nav__logo">Sevasadan Cardio</div>
+              <ul class="nav__links">
+                <li class="link"><a href="/admin_portal"> Our Cardio Specialist</a></li>
+                <li class="link"><a href="/lab_assistant_list">View Lab Assistants</a></li>
+                <li class="link"><a href="/register_specialist">Register Cardio Specialist</a></li>
+                <li class="link"><a href="/register_lab_assistant"> Register Lab Assistant</a></li>
+                <li class="link"><a href="/all_patient_list"> All Patients</a></li>
+              </ul>
+           
+              <a  class="bb" href="/" >Logout</a>
+            </nav>
+          <div class="container main">
+                <div class="row">
+                    <div class="col-md-6 side-image">
+                      <h3 class="mk">Register Lab Assistant</h3>
+                      
+                    <div class="text">
+                          
                 </div>
-                
-            </div>
+                      
+           </div>
+      
+                  <div class="col-md-6 right">
+                      
+                        <div class="input-box">
+                          <form method="post">
+                              {% csrf_token %}
+                              <label for="full_name">Full Name:</label>
+                          <input class='box input' type="text" name="full_name" id="full_name" required>
+                          <span class="err-name"></span>
+                          
+                          <label for="emailId">Email:</label>
+                          <input class='box-email input' type="text" name="emailId" id="emailId" required>
+                          <span class="err-email"></span>
+                          
+                            <label for="phone_number">Phone Number:</label>
+                              <input class='input' type="text" name="phone_number" id="phone_number">
+                              <span class="err-phone"></span>
+                          
+                              <label for="education">Education:</label>
+                              <input class='input' type="text" name="education" id="education" required>
+                          
+                              <label for="university">University Name:</label>
+                              <input class='input' type="text" name="university" id="university" required>
+                          
+                              <label for="lab_name">Lab Name:</label>
+                              <input class='input' type="text" name="lab_name" id="lab_name" required>
+                          
+                              <label for="lab_address">Lab Address:</label>
+                              <input class='input' type="text" name="lab_address" id="lab_address" required>
+                          
+                              <label for="lab_city">Lab-In City:</label>
+                              <input class='input' type="text" name="lab_city" id="lab_city" required>
+                          
+                              <label for="lab_district">Lab-In District:</label>
+                              <input class='input' type="text" name="lab_district" id="lab_district" required>
+                          
+                              <label for="password_hash">Password:</label>
+                              <input class='box-3 input' type="password" name="password_hash" id="password_hash" required>
+                              <span class="err-password"></span>
+                          
+                              <label for="confirm_password">Confirm Password:</label>
+                              <input class='box-4 input' type="password" name="confirm_password" id="confirm_password" required>
+                              <span class="err-confirm-password"></span>
+                          
+                              <button class='submit' type="submit">Register</button>
+                          </form>
+                        </div>
+                    </div>
+              </div>
+          </div>
+      </div>
+    </body>
+    <script defer>
+        window.addEventListener("load", initEvents);
+    
+        let pattern = /[a-z|0-9]\w+[@]\w+[.]\w+/;
+    
+        function initEvents() {
+            let form = document.querySelector("form");
+            form.addEventListener("submit", function (event) {
+                event.preventDefault();
+                validateForm();
+            });
+    
+            let phoneInput = document.getElementById("phone_number");
+            phoneInput.addEventListener("blur", validatePhoneNumber);
+        
+            let fullNameInput = document.getElementById("full_name");
+            fullNameInput.addEventListener("blur", validateFullName);
+    
+            let emailInput = document.getElementById("emailId");
+            emailInput.addEventListener("blur", validateEmail);
+    
+            // Add event listeners for other inputs as needed
+    
+            let passwordInput = document.getElementById("password_hash");
+            passwordInput.addEventListener("blur", validatePassword);
+    
+            let confirmPasswordInput = document.getElementById("confirm_password");
+            confirmPasswordInput.addEventListener("blur", validateConfirmPassword);
+        }
+        function validateFullName() {
+            let fullNameInput = document.getElementById("full_name");
+            let errorSpan = document.querySelector(".err-name");
+        
+            // Your name validation logic here
+            const nameRegex = /^[A-Za-z\s]+$/;
+        
+            if (fullNameInput.value.trim() === "") {
+                fullNameInput.classList.add("error");
+                errorSpan.innerHTML = "<span style='color: red;'>Please enter your full name</span>";
+            } else if (!nameRegex.test(fullNameInput.value.trim())) {
+                fullNameInput.classList.add("error");
+                errorSpan.innerHTML = "<span style='color: red;'>Please enter a valid name </span>";
+            } else {
+                fullNameInput.classList.remove("error");
+                errorSpan.innerHTML = "";
+            }
+        }
+    
+    function validateEmail() {
+        let emailInput = document.getElementById("emailId");
+        let errorSpan = document.querySelector(".err-email");
+    
+        if (emailInput.value.trim() === "") {
+            emailInput.classList.add("error");
+            errorSpan.innerHTML = "<span style='color: red;'>Please enter your email</span>";
+        } else if (!pattern.test(emailInput.value.trim())) {
+            emailInput.classList.add("error");
+            errorSpan.innerHTML = "<span style='color: red;'>Please enter a valid email</span>";
+        } else {
+            emailInput.classList.remove("error");
+            errorSpan.innerHTML = "";
+        }
+    }
+    
+    // Add similar functions for other input fields as needed
+    
+    function validatePassword() {
+        let passwordInput = document.getElementById("password_hash");
+        let errorSpan = document.querySelector(".err-password");
+    
+        // Your password validation logic here
+    
+        // Example: Check if the password is at least 8 characters
+        if (passwordInput.value.trim().length < 8) {
+            passwordInput.classList.add("error");
+            errorSpan.innerHTML = "<span style='color: red;'>Password must be at least 8 characters</span>";
+        } else {
+            passwordInput.classList.remove("error");
+            errorSpan.innerHTML = "";
+        }
+    }
+    
+    function validateConfirmPassword() {
+        let passwordInput = document.getElementById("password_hash");
+        let confirmPasswordInput = document.getElementById("confirm_password");
+        let errorSpan = document.querySelector(".err-confirm-password");
+    
+        if (confirmPasswordInput.value.trim() !== passwordInput.value.trim()) {
+            confirmPasswordInput.classList.add("error");
+            errorSpan.innerHTML = "<span style='color: red;'>Passwords do not match</span>";
+        } else {
+            confirmPasswordInput.classList.remove("error");
+            errorSpan.innerHTML = "";
+        }
+    }
+    function validatePhoneNumber() {
+        let phoneInput = document.getElementById("phone_number");
+        let errorSpan = document.querySelector(".err-phone");
+    
+        const phoneRegex = /^\d{10}$/; // Assumes a 10-digit phone number
+    
+        if (!phoneRegex.test(phoneInput.value.trim())) {
+            phoneInput.classList.add("error");
+            errorSpan.innerHTML = "<span style='color: red;'>Please enter a valid phone number</span>";
+        } else {
+            phoneInput.classList.remove("error");
+            errorSpan.innerHTML = "";
+        }
+    }
+    
+    
+    function validateForm() {
+        validateFullName();
+        validateEmail();
+        // Add calls to other validation functions as needed
+    
+        // Example: Check if any input has the "error" class
+        let errorInputs = document.querySelectorAll(".error");
+        if (errorInputs.length === 0) {
+            // Submit the form if there are no errors
+            document.querySelector("form").submit();
+        } else {
+            // Display a general error message or handle as needed
+            alert("Please correct the errors before submitting the form.");
+        }
+    }
+    
+</script>
 
-            <div class="col-md-6 right">
-                
-                <div class="input-box">
-                    <form  method="post">
-						{% csrf_token %}
-                   <h3 style="color:#63C5CA ">Register Lab Assistence</h3>
-                   <label for="full_name">Full Name:</label>
-            <input class='input' type="text" name="full_name" id="full_name" required>
-            <label for="emailId">Email:</label>
-            <input class='input'  type="text" name="emailId" id="emailId" required>
-            <label for="phone_number">Phone Number:</label>
-            <input class='input'  type="text" name="phone_number" id="phone_number">
-            <label for="password_hash">Password:</label>
-            <input class='input' type="password" name="password_hash" id="password_hash" required>
-            <button class='submit' type="submit">Register</button>
-                   
-					
-                   
-                   </div> 
-				</form>
-                </div>  
-            </div>
-        </div>
-    </div>
-</div>
-</body>
 </html>

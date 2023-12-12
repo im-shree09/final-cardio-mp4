@@ -40,6 +40,10 @@ def admin_login(request):
 # Create your views here.
 def home(request):
     return render(request, 'home.html')
+def about_us(request):
+    return render(request, 'about.html')
+def contact_us(request):
+    return render(request, 'contact_us.html')
 
 def register(request):
     return render(request, 'register.html')
@@ -71,36 +75,85 @@ def dictfetchall(cursor):
     # Helper function to fetch all rows as dictionaries
     columns = [col[0] for col in cursor.description]
     return [dict(zip(columns, row)) for row in cursor.fetchall()]
+
 def register_specialist(request):
     if request.method == 'POST':
         full_name = request.POST['full_name']
         emailId = request.POST['emailId']
         phone_number = request.POST['phone_number']
+        education = request.POST['education']
+        university = request.POST['university']
+        residential_city = request.POST['residential_city']
+        residential_district = request.POST['residential_district']
         password = request.POST['password_hash']
         password_hash = make_password(password)
-        insert_query = "INSERT INTO User_Data (full_name, emailId, phone_number, registering_as, password_hash) VALUES (%s, %s, %s, %s, %s)"
-        data = (full_name, emailId, phone_number, 'specialist', password_hash)
+
+        insert_query = """
+            INSERT INTO User_Data (
+                full_name, emailId, phone_number, registering_as, password_hash,
+                education, university, city, district
+            ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+        """
+
+        data = (full_name, emailId, phone_number, 'specialist', password_hash, education, university, residential_city, residential_district)
+
         with connection.cursor() as cursor:
             cursor.execute(insert_query, data)
-        cursor.close()
-        return render(request, 'register_lab_assistant.html')
+
+        subject = 'Successful Registration as a Cardiologist'
+        message = f'Dear {full_name},\n\nCongratulations! We are pleased to inform you that your registration as a Cardiologist has been successfully processed. \nWelcome to our team!\n\nThanks and Regards,\nSevasadan Cardio Care.'
+        from_email = 'sevasadancardio@gmail.com'  # Replace with a valid sender email address
+
+        print(full_name) 
+        send_mail(subject, message, from_email, [emailId])
+        print("Mail Sent!!")
+
+        return render(request, 'register_success.html')
     else:
         return render(request, 'register_specialist.html')
+
+from django.contrib.auth.hashers import make_password
+from django.shortcuts import render
+from django.db import connection
+
 def register_lab_assistant(request):
     if request.method == 'POST':
         full_name = request.POST['full_name']
         emailId = request.POST['emailId']
         phone_number = request.POST['phone_number']
+        education = request.POST['education']
+        university = request.POST['university']
+        lab_name = request.POST['lab_name']
+        lab_address = request.POST['lab_address']
+        lab_city = request.POST['lab_city']
+        lab_district = request.POST['lab_district']
         password = request.POST['password_hash']
         password_hash = make_password(password)
-        insert_query = "INSERT INTO User_Data (full_name, emailId, phone_number, registering_as, password_hash) VALUES (%s, %s, %s, %s, %s)"
-        data = (full_name, emailId, phone_number, 'lab assistant', password_hash)
+
+        insert_query = """
+            INSERT INTO User_Data (
+                full_name, emailId, phone_number, registering_as, password_hash,
+                education, university, lab_name, lab_address, city, district
+            ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+        """
+
+        data = (full_name, emailId, phone_number, 'lab assistant', password_hash, education, university, lab_name, lab_address, lab_city, lab_district)
+
         with connection.cursor() as cursor:
             cursor.execute(insert_query, data)
-        cursor.close()
-        return render(request, 'register_lab_assistant.html')
+        
+        subject = 'Successful Registration as a Lab Assistant'
+        message = f'Dear {full_name},\n\nCongratulations! We are pleased to inform you that your registration as a Lab Assistant has been successfully processed. \nWelcome to our team!\n\nThanks and Regards,\nSevasadan Cardio Care.'
+        from_email = 'sevasadancardio@gmail.com'  # Replace with a valid sender email address
+
+        print(full_name) 
+        send_mail(subject, message, from_email, [emailId])
+        print("Mail Sent!!")
+
+        return render(request, 'register_success.html')
     else:
         return render(request, 'register_lab_assistant.html')
+
 
 def lab_assistant_list(request):
     with connection.cursor() as cursor:
@@ -146,18 +199,23 @@ def login(request):
     return render(request, 'login.html')
 
 def specialist_home(request, id):
+    lab_assistant_id = None
     if request.method == 'POST':
         report_id = request.POST.get('report_id')
         comment = request.POST.get('comment')
+        case_severity = request.POST.get('case_severity')
+        lab_assistant_id=request.POST.get('lab_assistant_id')
+        print(lab_assistant_id)
 
-        # Define the SQL query to update the specialist comments
+        # Define the SQL query to update the specialist comments and case severity
         sql_query = """
             UPDATE Reports
-            SET specialist_comments = %s
+            SET specialist_comments = %s, overall_condition = %s
             WHERE report_id = %s
         """
         with connection.cursor() as cursor:
-            cursor.execute(sql_query, [comment, report_id])
+            cursor.execute(sql_query, [comment, case_severity, report_id])
+
     # Fetch the reports assigned to the specialist with the given ID
     with connection.cursor() as cursor:
         cursor.execute(
@@ -168,80 +226,87 @@ def specialist_home(request, id):
 
     context = {
         'reports': reports,
-        'id':id,
+        'id': id,
     }
 
+    # Fetch the lab assistant's email based on lab_assistant_id
+    if lab_assistant_id is not None:
+        # Fetch the lab assistant's email based on lab_assistant_id
+        sql_fetch_lab_assistant_email = """
+            SELECT emailId FROM User_Data WHERE id = %s
+        """
+        with connection.cursor() as cursor:
+            cursor.execute(sql_fetch_lab_assistant_email, [lab_assistant_id])
+            result = cursor.fetchone()
+
+        if result is not None:
+            lab_assistant_email = result[0]
+
+            # Send email notification
+            subject = 'New case severity Submitted'
+            message = f'Hi,\n\nA new report has been submitted with case severity {case_severity}. Please review it.\n\nThanks and Regards,\nSevasadan Cardio Care.'
+            from_email = 'sevasadancardio@gmail.com'  # Replace with a valid sender email address
+            send_mail(subject, message, from_email, [lab_assistant_email])
+            print("Mail Sent!")
     return render(request, 'specialist_home.html', context)
 
+
 # ///////////////////////////Original/////////////////////////////
-# def lab_assistant_home(request, id):
-#     if request.method == 'POST':
-#         patient_id = request.POST['patient_id']
-#         patient_name = request.POST['patient_name']
-#         patient_age = request.POST['patient_age']
-#         patient_gender = request.POST['patient_gender']
-#         assigned_to_specialist = request.POST['assigned_to_specialist']
-#         report_data = request.FILES['report_data'].read()
-#         lab_assistant_id = id  # Get lab_assistant_id from function argument
-#         added_on_date_time = timezone.now()  # Get the current date and time
-
-#         sql_query = """
-#             INSERT INTO Reports (patient_id, lab_assistant_id, patient_name, patient_age, patient_gender, assigned_to_specialist, report_data, added_on_date_time)
-#             VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
-#         """
-
-#         with connection.cursor() as cursor:
-#             cursor.execute(sql_query, [patient_id, lab_assistant_id, patient_name, patient_age, patient_gender, assigned_to_specialist, report_data, added_on_date_time])
-
-#         return render(request, 'upload_success.html')
-#     else:
-#         with connection.cursor() as cursor:
-#             sql_query = "SELECT * FROM User_Data WHERE registering_as = 'specialist';"
-#             cursor.execute(sql_query)
-#             data = dictfetchall(cursor)
-#             context = {
-#                 'specialists': data,
-#                 'id':id,
-#             }
-
-#         return render(request, 'lab_assistant_home.html', context)
-from django.core.mail import send_mail
-from django.db import connection
-from django.shortcuts import render
-from django.utils import timezone
-
 def lab_assistant_home(request, id):
     if request.method == 'POST':
         patient_id = request.POST['patient_id']
         patient_name = request.POST['patient_name']
         patient_age = request.POST['patient_age']
         patient_gender = request.POST['patient_gender']
-        assigned_to_specialist = request.POST['assigned_to_specialist']
+        assigned_to_specialist_id = request.POST['assigned_to_specialist']
         report_data = request.FILES['report_data'].read()
-        lab_assistant_id = id
-        added_on_date_time = timezone.now()
+        lab_assistant_id = id  # Get lab_assistant_id from function argument
+        added_on_date_time = timezone.now()  # Get the current date and time
 
-        sql_query = """
-            INSERT INTO Reports (patient_id, lab_assistant_id, patient_name, patient_age, patient_gender, assigned_to_specialist, report_data, added_on_date_time)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
-        """
-
+        # Fetch lab assistant details from the User_Data table
         with connection.cursor() as cursor:
-            cursor.execute(sql_query, [patient_id, lab_assistant_id, patient_name, patient_age, patient_gender, assigned_to_specialist, report_data, added_on_date_time])
+            lab_assistant_query = "SELECT full_name, lab_name, lab_address, city FROM User_Data WHERE id = %s;"
+            cursor.execute(lab_assistant_query, [lab_assistant_id])
+            lab_assistant_details = cursor.fetchone()
+            lab_assistant_name = lab_assistant_details[0]
+            lab_name = lab_assistant_details[1]
+            lab_address = lab_assistant_details[2]
+            lab_city = lab_assistant_details[3]
 
+        # Fetch additional information about the assigned specialist
+        with connection.cursor() as cursor:
+            specialist_query = "SELECT full_name, education, city FROM User_Data WHERE id = %s;"
+            cursor.execute(specialist_query, [assigned_to_specialist_id])
+            specialist_details = cursor.fetchone()
+            specialist_name = specialist_details[0]
+            specialist_education = specialist_details[1]
+            specialist_city = specialist_details[2]
+
+        # Insert the report into the Reports table
+        sql_query = """
+            INSERT INTO Reports (patient_id, lab_assistant_id, patient_name, patient_age, patient_gender, assigned_to_specialist, report_data, added_on_date_time,  lab_name, lab_address, lab_city, lab_assistant_name, assigned_doctor_name)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+        """
+        with connection.cursor() as cursor:
+            cursor.execute(sql_query, [
+                patient_id, lab_assistant_id, patient_name, patient_age, patient_gender,
+                assigned_to_specialist_id, report_data, added_on_date_time,
+                 lab_name, lab_address, lab_city, lab_assistant_name, f"{specialist_name} ({specialist_education}, {specialist_city})"
+            ])
         # Fetch specialist email from the User_Data table
         with connection.cursor() as cursor:
             specialist_query = "SELECT emailId FROM user_data WHERE id = %s;"
-            cursor.execute(specialist_query, [assigned_to_specialist])
+            cursor.execute(specialist_query, [assigned_to_specialist_id])
             specialist_email = cursor.fetchone()[0]
 
         subject = 'New Report Submitted'
-        message = f'A new report has been submitted for patient {patient_name}. Please review it.'
+        message = f'Dear {specialist_name},\n\nA new report has been submitted by lab assistant {lab_assistant_name} for patient {patient_name}. Please review it.\n\nThanks and Regards,\nSevasadan Cardio Care.'
         from_email = 'sevasadancardio@gmail.com'  # Replace with a valid sender email address
 
         print(specialist_email)
         send_mail(subject, message, from_email, [specialist_email])
         print("Mail Sent!!")
+
         return render(request, 'upload_success.html')
     else:
         with connection.cursor() as cursor:
@@ -255,9 +320,29 @@ def lab_assistant_home(request, id):
 
         return render(request, 'lab_assistant_home.html', context)
 
+from django.core.mail import send_mail
+from django.db import connection
+from django.shortcuts import render
+from django.utils import timezone
+
+
+
+from django.shortcuts import render
+from django.db import connection
+from django.utils import timezone
+
+from django.shortcuts import render
+from django.db import connection
+from django.utils import timezone
+
+
 def dictfetchall(cursor):
-    desc = cursor.description
-    return [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]
+    columns = [col[0] for col in cursor.description]
+    return [dict(zip(columns, row)) for row in cursor.fetchall()]
+
+
+
+
 
 def upload_success(request):
     return render(request,'upload_success.html')
@@ -286,17 +371,18 @@ def view_specialist_previous_reports(request, id):
     if request.method == 'POST':
         report_id = request.POST.get('report_id')
         comment = request.POST.get('comment')
+        case_severity = request.POST.get('case_severity')
 
-        # Define the SQL query to update the specialist comments
+        # Define the SQL query to update the specialist comments and case severity
         sql_query = """
             UPDATE Reports
-            SET specialist_comments = %s
+            SET specialist_comments = %s, overall_condition = %s
             WHERE report_id = %s
         """
         with connection.cursor() as cursor:
-           
-                cursor.execute(sql_query, [comment, report_id])
-                connection.commit()  # Commit the transaction
+            cursor.execute(sql_query, [comment, case_severity, report_id])
+
+        
            
 
     # Fetch the reports assigned to the specialist with the given ID

@@ -32,6 +32,7 @@ body {
     background: url(images/html_table.jpg) center / cover;
     display: flex;
     flex-direction: column;
+    background-color:#ececec;
     justify-content: center;
     align-items: center;
 }
@@ -39,7 +40,7 @@ body {
 main.table {
     width: 82vw;
     height: 90vh;
-    background-color: #fff5;
+    background-color: #fff;
 
     backdrop-filter: blur(7px);
     box-shadow: 0 .4rem .8rem #0005;
@@ -326,8 +327,9 @@ thead th.active,tbody td.active {
     height: auto;
 }
 
+
 nav {
-    padding: 2rem 1rem;
+    padding: 3rem 5rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -335,12 +337,13 @@ nav {
   }
   
   .nav__logo {
-    font-size: 34px;
+    font-size: 32px;
     font-weight: 600;
     color: var(--primary-color);
   }
   
   .nav__links {
+    padding: 2px;
     list-style: none;
     display: flex;
     align-items: center;
@@ -351,20 +354,32 @@ nav {
     text-decoration: none;
     color: var(--text-light);
     cursor: pointer;
+    font-weight: 100;
+    font-size: 20px;
     transition: 0.3s;
   }
   
   .link a:hover {
-    color: var(--primary-color);
+    color:  #63C5CA;
   }
   
-
+  .bb{
+    display: inline-block;
+    padding: 10px 20px;
+    background: #63C5CA;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
     </style>
 </head>
 
 <body>
     <nav>
-        <div class="nav__logo" style="color:#63C5CA">Sevasadan Cardio</div>
+        <div class="nav__logo" >Sevasadan Cardio</div>
         <ul class="nav__links">
             <li class="link"><a href="/admin_portal"> Our Cardio Specialist</a></li>
             <li class="link"><a href="/lab_assistant_list">View Lab Assistants</a></li>
@@ -373,7 +388,7 @@ nav {
             <li class="link"><a href="/all_patient_list"> All Patients</a></li>
         </ul>
      
-        <a class="btn" href="/" style="text-decoration: none;"><i class="ri-logout-box-line"></i> LogOut</a>
+        <a class="bb" href="/" style="text-decoration: none;"><i class="ri-logout-box-line"></i> LogOut</a>
       </nav>
     <main class="table">
         <section class="table__header">

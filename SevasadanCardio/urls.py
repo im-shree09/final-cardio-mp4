@@ -38,4 +38,6 @@ urlpatterns = [
     path('upload_success', views.upload_success, name='upload_success'),
     path('show_report/<int:report_id>/', views.show_report, name='show_report'),
     path('all_patient_list/', views.all_patient_list, name='all_patient_list'),
+    path('about_us/', views.about_us, name='about_us'),
+    path('contact_us/', views.contact_us, name='contact_us'),
 ]
